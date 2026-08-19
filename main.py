@@ -2,6 +2,7 @@
 import subprocess
 import sys
 import os
+import tkinter as tk
 from pathlib import Path
 
 # CONSTANTS
@@ -10,12 +11,14 @@ ALLOWED_EXTENSIONS = {".mp4", ".mov", ".avi", ".wmv", ".3gp", ".vob", ".asf", ".
 # HELPER FUNCTION
 def path_to_ffprobe():
     if getattr(sys, 'frozen', False):
-        base_dir = os.path.dirname(sys.executable)
+        ffprobe_dir = sys._MEIPASS
+        scan_dir = os.path.dirname(sys.executable)
     else:
-        base_dir = os.path.dirname(os.path.abspath(__file__))
+        ffprobe_dir = os.path.dirname(os.path.abspath(__file__))
+        scan_dir = ffprobe_dir
 
-    executable_path = os.path.join(base_dir, "ffprobe.exe")
-    return executable_path, base_dir
+    executable_path = os.path.join(ffprobe_dir, "ffprobe.exe")
+    return executable_path, scan_dir
 
 def time_format(seconds):
     hours = int( seconds // 3600)
@@ -91,5 +94,14 @@ except subprocess.CalledProcessError as e:
     process_error = f"The executable crashed with exit code {e.returncode}"
     result_lines.append(process_error)
 finally:
+    root = tk.Tk()
+    root.title("AUDIO/VIDEO Duration Calculator")
+    root.geometry("700x300")
+
+    listbox = tk.Listbox(root)
     for line in result_lines:
-        print(line)
+        listbox.insert(tk.END, line)
+
+    listbox.pack(pady=20, fill=tk.BOTH, expand=True)
+
+    root.mainloop()
