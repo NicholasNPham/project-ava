@@ -47,7 +47,7 @@ def get_files_in_folder(folder_path):
     return files_list
 
 def run_ffprobe(video_path):
-    result = subprocess.run(build_command(video_path), capture_output=True, text=True, check=True)
+    result = subprocess.run(build_command(video_path), capture_output=True, text=True, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
     total_seconds = float(result.stdout.strip())
     result_line = f"{video_path.name}: {time_format(total_seconds)}"
 
