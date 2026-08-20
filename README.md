@@ -29,3 +29,6 @@ Drop `ava.exe` into a folder with video/audio files and double click it. The too
 4. Close the window when done, no further action needed.
 
 **Supported file types:** `.mp4` `.mov` `.avi` `.wmv` `.3gp` `.vob` `.asf` `.mpeg` `.wav` `.mp3` `.m4a` `.wma` `.aac`
+
+**Command to Create the Executable:**
+`pyinstaller --onefile --noconsole --add-data "ffprobe.exe;." --name ava main.py`
